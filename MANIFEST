@@ -1,0 +1,16 @@
+Changes
+LICENSE
+MANIFEST
+Makefile.PL
+README
+data/basics.txt
+data/complex.txt
+lib/Algorithm/Dependency.pm
+lib/Algorithm/Dependency/Item.pm
+lib/Algorithm/Dependency/Ordered.pm
+lib/Algorithm/Dependency/Source.pm
+lib/Algorithm/Dependency/Source/File.pm
+t/01_api.t
+t/02_basics.t
+t/03_complex.t
+t/04_ordered.t
