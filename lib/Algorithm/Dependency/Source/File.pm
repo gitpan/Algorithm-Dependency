@@ -18,7 +18,7 @@ use base 'Algorithm::Dependency::Source';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.01';
+	$VERSION = '1.02';
 }
 
 
@@ -31,7 +31,7 @@ sub new {
 	return undef unless -r $filename;
 
 	# Get the basic source object
-	my $self = $class->SUPER::new() or return undef;
+	my $self = $class->SUPER::new or return undef;
 
 	# Add our arguments
 	$self->{filename} = $filename;

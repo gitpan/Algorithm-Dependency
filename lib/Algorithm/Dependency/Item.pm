@@ -9,7 +9,7 @@ use Algorithm::Dependency ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.01';
+	$VERSION = '1.02';
 }
 
 

@@ -1,5 +1,15 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.02 Fri Aug 20 2004
+	- Change missing_dependencies to use ->item and ->items rather than
+	  accessing the internal directly. This means custom sub-classed
+	  Sources don't have to overload ->missing_dependencies. Currently
+	  in the documentation, we tell them they don't have to.
+
+1.01 Fri Aug 20 2004
+	- Fixed: ignore_orphans did not work for the ::Ordered subclass
+	- Changed to test data directory to the new standard
+
 1.0  Mon Jul 19 2004
 	- Updated copyright notice
 	- Updated test suite, and made it more cross-platform friendly

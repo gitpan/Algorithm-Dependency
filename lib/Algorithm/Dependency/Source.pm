@@ -9,7 +9,7 @@ use Algorithm::Dependency;
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.01';
+	$VERSION = '1.02';
 }
 
 
@@ -98,8 +98,9 @@ sub missing_dependencies {
 	
 	# Merged the depends of all the items, and see if
 	# any are missing.
-	my %missing = map { $_ => 1 } grep { ! exists $self->{items_hash}->{$_} }
-		map { $_->depends } @{ $self->{items_array} };
+	my %missing = map { $_ => 1 }
+		grep { ! $self->item($_) }
+		map { $_->depends } $self->items;
 	%missing ? [ sort keys %missing ] : 0;
 }
 
