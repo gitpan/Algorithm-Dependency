@@ -19,12 +19,15 @@ use Test::More tests => 117;
 use Algorithm::Dependency;
 use Algorithm::Dependency::Source::File;
 
+# Where is the test data located
+my $TESTDATA = 't.data';
+
 
 
 
 
 # Load the data/basics.txt file in as a source file, and test it rigorously.
-my $file = File::Spec->catfile( 'data', 'basics.txt' );
+my $file = File::Spec->catfile( $TESTDATA, 'basics.txt' );
 my $Source = Algorithm::Dependency::Source::File->new( $file );
 
 ok( $Source, "Source is true" );
@@ -132,7 +135,7 @@ foreach my $data ( [
 is( $Source->missing_dependencies, 0, "->missing_dependencies returns as expected when nothing missing" );
 
 # Load the source we know has missing dependencies
-$file = File::Spec->catfile( 'data', 'missing.txt' );
+$file = File::Spec->catfile( $TESTDATA, 'missing.txt' );
 my $Missing = Algorithm::Dependency::Source::File->new( $file );
 ok( $Missing, "Missing is true" );
 ok( ref $Missing, "Missing is a reference" );

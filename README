@@ -179,17 +179,15 @@ TO DO
     being a tool.
 
 SUPPORT
+    Bugs should be submitted via the CPAN bug tracker, located at
+
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependenc
+    y>
+
     For general comments, contact the author.
 
-    To file a bug against this module, in a way you can keep track of, see
-    the CPAN bug tracking system.
-
-    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
-
 AUTHOR
-        Adam Kennedy
-        cpan@ali.as
-        http//ali.as/
+    Adam Kennedy (Maintainer), <http://ali.as/>, cpan@ali.as
 
 SEE ALSO
     Algorithm::Dependency::Ordered, Algorithm::Dependency::Item,

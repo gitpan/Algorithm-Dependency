@@ -18,7 +18,7 @@ use base 'Algorithm::Dependency::Source';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.0';
+	$VERSION = '1.01';
 }
 
 
@@ -134,18 +134,15 @@ otherwise.
 
 =head1 SUPPORT
 
-For general comments, contact the author.
+To file a bug against this module, use the CPAN bug tracking system
 
-To file a bug against this module, in a way you can keep track of, see the
-CPAN bug tracking system.
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency>
 
-http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
+For other comments, contact the author.
 
 =head1 AUTHOR
 
-    Adam Kennedy
-    cpan@ali.as
-    http//ali.as/
+Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
 
 =head1 SEE ALSO
 

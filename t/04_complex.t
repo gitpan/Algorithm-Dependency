@@ -19,12 +19,15 @@ use Test::More tests => 169;
 use Algorithm::Dependency;
 use Algorithm::Dependency::Source::File;
 
+# Where is the test data located
+my $TESTDATA = 't.data';
+
 
 
 
 
 # Load the data/complex.txt file in as a source file
-my $file = File::Spec->catfile( 'data', 'complex.txt' );
+my $file = File::Spec->catfile( $TESTDATA, 'complex.txt' );
 my $Source = Algorithm::Dependency::Source::File->new( $file );
 ok( $Source, "Complex source created" );
 ok( eval {$Source->load;}, "Complex source loads" );

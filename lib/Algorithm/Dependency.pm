@@ -10,7 +10,7 @@ use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.0';
+	$VERSION = '1.01';
 }
 
 
@@ -354,18 +354,15 @@ a tool.
 
 =head1 SUPPORT
 
+Bugs should be submitted via the CPAN bug tracker, located at
+
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency>
+
 For general comments, contact the author.
-
-To file a bug against this module, in a way you can keep track of, see the
-CPAN bug tracking system.
-
-http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 
-    Adam Kennedy
-    cpan@ali.as
-    http//ali.as/
+Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
 
 =head1 SEE ALSO
 

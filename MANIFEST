@@ -1,7 +1,4 @@
 Changes
-data/basics.txt
-data/complex.txt
-data/missing.txt
 lib/Algorithm/Dependency.pm
 lib/Algorithm/Dependency/Item.pm
 lib/Algorithm/Dependency/Ordered.pm
@@ -11,9 +8,13 @@ LICENSE
 Makefile.PL
 MANIFEST			This list of files
 README
+t.data/basics.txt
+t.data/complex.txt
+t.data/missing.txt
 t/01_compile.t
 t/02_api.t
 t/03_basics.t
 t/04_complex.t
 t/05_ordered.t
+t/06_ignore_orphans.t
 META.yml                                Module meta-data (added by MakeMaker)

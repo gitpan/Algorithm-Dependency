@@ -18,7 +18,7 @@ use base 'Algorithm::Dependency';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.0';
+	$VERSION = '1.01';
 }
 
 
@@ -31,9 +31,9 @@ sub schedule {
 	my @items = @_ or return undef;
 	return undef if grep { ! $source->item($_) } @items;
 
-	# The actual items to select will be the same as for the
-	# unordered version, and we can simplify the algortihm greatly
-	# by using the normal ->schedule method to get the starting list.
+	# The actual items to select will be the same as for the unordered
+	# version, so we can simplify the algorithm greatly by using the
+	# normal unordered ->schedule method to get the starting list.
 	my $rv = $self->SUPER::schedule( @items );
 	my @queue = $rv ? @$rv : return undef;
 
@@ -55,8 +55,15 @@ sub schedule {
 
 		# Are there any un-met dependencies
 		my $Item = $self->{source}->item( $id ) or return undef;
-		if ( grep { ! $selected{$_} } $Item->depends ) {
-			# Set the error market if not already
+		my @missing = grep { ! $selected{$_} } $Item->depends;
+
+		# Remove orphans if we are ignoring them
+		if ( $self->{ignore_orphans} ) {
+			@missing = grep { $self->{source}->item($_) } @missing;
+		}
+
+		if ( @missing ) {
+			# Set the error marker if not already
 			$error_marker = $id unless $error_marker;
 
 			# Add the id back to the end of the queue
@@ -101,18 +108,15 @@ For API details, see L<Algorithm::Dependency>.
 
 =head1 SUPPORT
 
-For general comments, contact the author.
-
-To file a bug against this module, in a way you can keep track of, see the
-CPAN bug tracking system.
+Bugs should be submitted via the CPAN bug tracker, located at
 
 http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
+For general comments, contact the author.
+
 =head1 AUTHOR
 
-    Adam Kennedy (Maintainer)
-    cpan@ali.as
-    http//ali.as/
+Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
 
 =head1 SEE ALSO
 

@@ -19,20 +19,22 @@ use Test::More tests => 208;
 use Algorithm::Dependency::Ordered;
 use Algorithm::Dependency::Source::File;
 
+# Where is the test data located
+my $TESTDATA = 't.data';
+
 
 
 
 
 # Load the source files
-my $basic = File::Spec->catfile( 'data', 'basics.txt' );
+my $basic = File::Spec->catfile( $TESTDATA, 'basics.txt' );
 my $BSource = Algorithm::Dependency::Source::File->new( $basic );
 ok( $BSource, "Basic source created" );
 ok( eval {$BSource->load;}, "Basic source loads" );
-my $complex = File::Spec->catfile( 'data', 'complex.txt' );
+my $complex = File::Spec->catfile( $TESTDATA, 'complex.txt' );
 my $CSource = Algorithm::Dependency::Source::File->new( $complex );
 ok( $CSource, "Complex source created" );
 ok( eval {$CSource->load;}, "Complex source loads" );
-
 
 
 
@@ -162,7 +164,5 @@ foreach my $data ( [
 	ok( $rv, "Dependency->schedule($args) returns something" );
 	is_deeply( $rv, $data->[2], "Dependency->schedule($args) returns expected values" );
 }
-
-1;
 
 1;

@@ -9,7 +9,7 @@ use Algorithm::Dependency ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.0';
+	$VERSION = '1.01';
 }
 
 
@@ -76,9 +76,7 @@ http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 
-    Adam Kennedy (Maintainer)
-    cpan@ali.as
-    http//ali.as/
+Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
 
 =head1 SEE ALSO
 
