@@ -1,5 +1,9 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.03 Sat Aug 21 2004
+	- Because some smoke testers weren't installing Test::ClassAPI's
+	  dependencies properly, add them explicitly to the Makefile.PL
+
 1.02 Fri Aug 20 2004
 	- Change missing_dependencies to use ->item and ->items rather than
 	  accessing the internal directly. This means custom sub-classed
