@@ -3,12 +3,13 @@ package Algorithm::Dependency::Item;
 # Algorithm::Dependency::Item implements an object for a single item
 # in the database, with a unique id.
 
+use 5.005;
 use strict;
 use Algorithm::Dependency ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.6;
+	$VERSION = '1.0';
 }
 
 
@@ -75,7 +76,7 @@ http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 
-    Adam Kennedy
+    Adam Kennedy (Maintainer)
     cpan@ali.as
     http//ali.as/
 
@@ -85,7 +86,7 @@ L<Algorithm::Dependency>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003 Adam Kennedy. All rights reserved.
+Copyright (c) 2003 - 2004 Adam Kennedy. All rights reserved.
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

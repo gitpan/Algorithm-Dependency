@@ -1,14 +1,21 @@
 #!/usr/bin/perl -w
 
-# More complex dependency trees
+# Ordered dependency trees
 
-BEGIN { $| = 1; }
 use strict;
-use lib '../../modules'; # For development testing
-use lib '../lib'; # For installation testing
+use lib ();
 use UNIVERSAL 'isa';
+use File::Spec::Functions ':ALL';
+BEGIN {
+	$| = 1;
+	unless ( $ENV{HARNESS_ACTIVE} ) {
+		require FindBin;
+		chdir ($FindBin::Bin = $FindBin::Bin); # Avoid a warning
+		lib->import( catdir( updir(), updir(), 'modules') );
+	}
+}
+
 use Test::More tests => 208;
-use File::Spec;
 use Algorithm::Dependency::Ordered;
 use Algorithm::Dependency::Source::File;
 

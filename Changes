@@ -1,5 +1,10 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.0  Mon Jul 19 2004
+	- Updated copyright notice
+	- Updated test suite, and made it more cross-platform friendly
+	- No changes needed for a long time, so incrementing to version 1.0
+
 0.6  Wed Nov 19 2003
 	- Fixed several bugs in the POD documentation
 	- Updated version numbers correctly this time

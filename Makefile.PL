@@ -4,12 +4,13 @@ WriteMakefile(
 	'NAME'         => 'Algorithm::Dependency',
 	'VERSION_FROM' => 'lib/Algorithm/Dependency.pm',
 	'PREREQ_PM'    => {
-		# For the tests
-		'Test::More'     => 0,
-		'File::Spec'     => 0.82,
+		# Modules needed for tests
+		'Test::More'     => '0',
+		'Test::ClassAPI' => '0.6',
+		'File::Spec'     => '0.83',
 	},
 	($] >= 5.005) ? (
 		'AUTHOR'     => 'Adam Kennedy (cpan@ali.as)',
-		'ABSTRACT'   => 'Implements algorithms relating to dependency trees',
+		'ABSTRACT'   => 'Create extensible and optimized dependency algorithms',
 	) : (),
 );

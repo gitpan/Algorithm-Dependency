@@ -2,14 +2,15 @@ package Algorithm::Dependency;
 
 # Implements the basic, non-order significant dependency algorithm
 
+use 5.005;
 use strict;
 use UNIVERSAL 'isa';
-use Algorithm::Dependency::Item ();
+use Algorithm::Dependency::Item   ();
 use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.6;
+	$VERSION = '1.0';
 }
 
 
@@ -373,7 +374,7 @@ L<Algorithm::Dependency::Source>, L<Algorithm::Dependency::Source::File>,
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003 Adam Kennedy. All rights reserved.
+Copyright (c) 2003 - 2004 Adam Kennedy. All rights reserved.
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

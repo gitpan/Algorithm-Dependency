@@ -3,12 +3,13 @@ package Algorithm::Dependency::Source;
 # Algorithm::Dependency::Source implements a parent class for a source
 # of items.
 
+use 5.005;
 use strict;
 use Algorithm::Dependency;
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.6;
+	$VERSION = '1.0';
 }
 
 
