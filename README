@@ -164,6 +164,10 @@ METHODS
     reference to an empty array if no items need to be acted upon, or
     "undef" on error.
 
+  schedule_all();
+    The "schedule_all" method acts the same as the "schedule" method, but
+    returns a schedule that selected all the so-far unselected items.
+
 TO DO
     Add the "check_source" method, to verify the integrity of the source.
 

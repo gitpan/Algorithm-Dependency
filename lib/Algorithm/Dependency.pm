@@ -9,7 +9,7 @@ use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.1;
+	$VERSION = 0.2;
 }
 
 
@@ -138,6 +138,13 @@ sub schedule {
 	# We are allowed to return an empty list.
 	my $s = $self->{selected};
 	return [ sort grep { ! $s->{$_} } @items, @$depends ];
+}
+
+# As above, but don't pass what we want to schedule as a list, just do the
+# schedule for everything.
+sub schedule_all {
+	my $self = shift;
+	return $self->schedule( $self->source->items );
 }
 
 1;
@@ -327,6 +334,11 @@ will not be included in the list.
 The method returns a reference to an array of item names on success, a
 reference to an empty array if no items need to be acted upon, or C<undef>
 on error.
+
+=head2 schedule_all();
+
+The C<schedule_all> method acts the same as the C<schedule> method, but 
+returns a schedule that selected all the so-far unselected items.
 
 =head1 TO DO
 
