@@ -17,7 +17,7 @@ use base 'Algorithm::Dependency';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.4;
+	$VERSION = 0.5;
 }
 
 
@@ -70,8 +70,8 @@ sub schedule {
 		$error_marker = '';
 	}
 
-	# All items have been added to the schedule successfully.
-	return \@schedule;
+	# All items have been added
+	\@schedule;
 }
 
 1;

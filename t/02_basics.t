@@ -7,7 +7,7 @@ use strict;
 use lib '../../modules'; # For development testing
 use lib '../lib'; # For installation testing
 use UNIVERSAL 'isa';
-use Test::More tests => 111;
+use Test::More tests => 117;
 use File::Spec;
 use Algorithm::Dependency;
 use Algorithm::Dependency::Source::File;
@@ -120,8 +120,20 @@ foreach my $data ( [
 	is_deeply( $rv, $data->[2], "Dependency->schedule($args) returns expected values" );
 }
 
-# Do a quick check of the missing_dependencies methods
-is( $Source->missing_dependencies, 0, "->missing_dependencies returns as expected" );
+# Does missing dependencies return defined but false for a source we
+# know doesn't have any missing dependencies
+is( $Source->missing_dependencies, 0, "->missing_dependencies returns as expected when nothing missing" );
+
+# Load the source we know has missing dependencies
+$file = File::Spec->catfile( 'data', 'missing.txt' );
+my $Missing = Algorithm::Dependency::Source::File->new( $file );
+ok( $Missing, "Missing is true" );
+ok( ref $Missing, "Missing is a reference" );
+ok( isa( $Missing, 'Algorithm::Dependency::Source::File' ), "Missing is a Source::File" );
+ok( isa( $Missing, 'Algorithm::Dependency::Source' ), "Missing is a Source" );
+ok( eval {$Missing->load;}, "Missing ->load returns true" );
+
+is_deeply( $Missing->missing_dependencies, [ 'C', 'E' ], "->missing_dependencies returns as expected when something missing" );
 
 1;
 

@@ -1,5 +1,10 @@
 Revision history for Perl extension Algorithm::Dependency
 
+0.5  Wed Nov 12 2003
+	- Due to a bug I didn't notice until I had a bad Source, 
+	  the missing_dependencies method just outright didn't work.
+	  Bug fixed and tests added to catch the case in future.
+
 0.4  Sat Jun 21 10:19:21 2003
 	- Added the missing_dependencies method to the Source class
 

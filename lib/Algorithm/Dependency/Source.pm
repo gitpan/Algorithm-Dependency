@@ -8,7 +8,7 @@ use Algorithm::Dependency;
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.4;
+	$VERSION = 0.5;
 }
 
 
@@ -24,15 +24,14 @@ sub new {
 		die "Cannot directly instantiate Algorithm::Dependency::Source. You must use a subclass";
 	}
 
-	# Create and return the basic object
-	return bless {
+	# Create the basic object
+	bless {
 		# Has the source been loaded
-		loaded => 0,
+		loaded      => 0,
 
 		# Indexes
-		items_hash => undef,
+		items_hash  => undef,
 		items_array => undef,
-
 		}, $class;
 }
 
@@ -81,16 +80,14 @@ sub item {
 	$self->{loaded} or $self->load or return undef;
 
 	# Return the item ( or undef )
-	return $self->{items_hash}->{$id};
+	$self->{items_hash}->{$id};
 }
 
 # Get a list of the items
 sub items {
 	my $self = shift;
 	$self->{loaded} or $self->load or return undef;
-
-	# Return in list form
-	return @{ $self->{items_array} };
+	@{ $self->{items_array} };
 }
 
 # Check the integrity of the source.
@@ -100,9 +97,9 @@ sub missing_dependencies {
 	
 	# Merged the depends of all the items, and see if
 	# any are missing.
-	my %missing = map { $_ => 1 } grep { ! exists $self->{items_hash} }
+	my %missing = map { $_ => 1 } grep { ! exists $self->{items_hash}->{$_} }
 		map { $_->depends } @{ $self->{items_array} };
-	return %missing ? [ sort keys %missing ] : 0;
+	%missing ? [ sort keys %missing ] : 0;
 }
 
 
@@ -134,7 +131,7 @@ L<Algorithm::Dependency> package.
 
 =head1 METHODS
 
-=head2 new( @arguments )
+=head2 new @arguments
 
 Although you cannot directly use the C<new> constructor for
 C<Algorithm::Dependency::Source>, it will work the same in all subclasses.
@@ -147,7 +144,7 @@ until you need to use the items.
 
 Returns a new object on success, or C<undef> on error.
 
-=head2 load()
+=head2 load
 
 The C<load> method is the public method used to actually load the items from
 their storage location into the the source object. The method will
@@ -157,7 +154,7 @@ that the source will load correctly, and want to check it will work.
 
 Returns true if the items are loaded successfully, or C<undef> on error.
 
-=head2 item( $name )
+=head2 item $name
 
 The C<item> method fetches and returns the item object specified by the
 name argument.
@@ -165,7 +162,7 @@ name argument.
 Returns an L<Algorithm::Dependency::Item> object on success, or C<undef> if
 the named item does not exist in the source.
 
-=head2 items()
+=head2 items
 
 The C<items> method returns, as a list of objects, all of the items
 contained in the source. The item objects will be returned in the same order
@@ -174,7 +171,7 @@ as that in the storage location.
 Returns a list of L<Algorithm::Dependency::Item> objects on success, or
 C<undef> on error.
 
-=head2 missing_dependencies()
+=head2 missing_dependencies
 
 By default, we are leniant with missing dependencies if the item is neved 
 used. For systems where having a missing dependency can be very bad, the 

@@ -82,7 +82,7 @@ DESCRIPTION
     a source for your particular use is in Algorithm::Dependency::Source.
 
 METHODS
-  new( %options )
+  new %options
     The constructor creates a new context object for the dependency
     algorithms to act in. It takes as argument a series of options for
     creating the object.
@@ -111,27 +111,27 @@ METHODS
     The "new" constructor returns a new Algorithm::Dependency object on
     success, or "undef" on error.
 
-  source()
+  source
     The "source" method retrieves the Algorithm::Dependency::Source object
     for the algorithm context.
 
-  selected_list()
+  selected_list
     The "selected_list" method returns, as a list and in alphabetical order,
     the list of the names of the selected items.
 
-  selected( $name )
+  selected $name
     Given an item name, the "selected" method will return true if the item
     is selected, false is not, or "undef" if the item does not exist, or an
     error occurs.
 
-  item( $name )
+  item $name
     The "item" method fetches and returns the item object, as specified by
     the name argument.
 
     Returns an Algorithm::Dependency::Item object on success, or "undef" if
     an item does not exist for the argument provided.
 
-  depends( $name1, ..., $nameN )
+  depends $name1, ..., $nameN
     Given a list of one or more item names, the "depends" method will return
     a reference to an array containing a list of the names of all the OTHER
     items that also have to be selected to meet dependencies.
@@ -146,7 +146,7 @@ METHODS
     reference to an empty array if no other items are needed, or "undef" on
     error.
 
-  schedule( $name1, ..., $nameN )
+  schedule $name1, ..., $nameN
     Given a list of one or more item names, the "depends" method will
     return, as a reference to an array, the ordered list of items you should
     act upon.
@@ -164,7 +164,7 @@ METHODS
     reference to an empty array if no items need to be acted upon, or
     "undef" on error.
 
-  schedule_all();
+  schedule_all;
     The "schedule_all" method acts the same as the "schedule" method, but
     returns a schedule that selected all the so-far unselected items.
 

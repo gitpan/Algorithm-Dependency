@@ -8,7 +8,7 @@ use Algorithm::Dependency ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.4;
+	$VERSION = 0.5;
 }
 
 
@@ -21,15 +21,12 @@ sub new {
 	my @depends = @_;
 
 	# Create the object
-	return bless {
-		id => $id,
-		depends => \@depends,
-		}, $class;
+	bless { id => $id, depends => \@depends }, $class;
 }
 
 # Get the values
 sub id { $_[0]->{id} }
-sub depends { @{ $_[0]->{depends} } }
+sub depends { @{$_[0]->{depends}} }
 
 1;
 
@@ -50,7 +47,7 @@ their own source. ( See L<Algorithm::Dependency::Source> for details ).
 
 =head1 METHODS
 
-=head2 new( $id, @depends )
+=head2 new $id, @depends
 
 The C<new> constructor takes as it's first argument the id ( name ) of the
 item, and any further arguments are assumed to be the ids of other items that
@@ -58,11 +55,11 @@ this one depends on.
 
 Returns a new Algorithm::Dependency::Item on success, or C<undef> on error.
 
-=head2 id()
+=head2 id
 
 The C<id> method returns the id of the item.
 
-=head2 depends()
+=head2 depends
 
 The C<depends> method returns, as a list, the names of the other items that
 this item depends on.

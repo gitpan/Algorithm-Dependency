@@ -1,5 +1,5 @@
 # This file is to be loaded by Algorithm::Dependency::Source::File, and
-# contains some basic stuff.
+# contains some complex dependency information
 
 A
 B C

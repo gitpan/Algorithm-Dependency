@@ -9,7 +9,7 @@ use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.4;
+	$VERSION = 0.5;
 }
 
 
@@ -55,7 +55,7 @@ sub new {
 	}
 
 	$self->{selected} = \%selected;
-	return $self;
+	$self;
 }
 
 
@@ -69,7 +69,7 @@ sub new {
 sub source { $_[0]->{source} }
 
 # Get the list of all selected items
-sub selected_list { return sort keys %{$_[0]->{selected}} }
+sub selected_list { sort keys %{$_[0]->{selected}} }
 
 # Is a particular item selected
 sub selected { $_[0]->{selected}->{$_[1]} }
@@ -119,7 +119,7 @@ sub depends {
 
 	# Remove any items already selected
 	my $s = $self->{selected};
-	return [ sort grep { ! $s->{$_} } @depends ];
+	[ sort grep { ! $s->{$_} } @depends ];
 }
 
 # For one or more items, create a schedule of all items, including the
@@ -137,14 +137,14 @@ sub schedule {
 	# Now return a combined list, removing any items already selected.
 	# We are allowed to return an empty list.
 	my $s = $self->{selected};
-	return [ sort grep { ! $s->{$_} } @items, @$depends ];
+	[ sort grep { ! $s->{$_} } @items, @$depends ];
 }
 
 # As above, but don't pass what we want to schedule as a list, just do the
 # schedule for everything.
 sub schedule_all {
 	my $self = shift;
-	return $self->schedule( map { $_->id } $self->source->items );
+	$self->schedule( map { $_->id } $self->source->items );
 }
 
 1;
@@ -242,7 +242,7 @@ a source for your particular use is in L<Algorithm::Dependency::Source>.
 
 =head1 METHODS
 
-=head2 new( %options )
+=head2 new %options
 
 The constructor creates a new context object for the dependency algorithms to
 act in. It takes as argument a series of options for creating the object.
@@ -277,23 +277,23 @@ the C<ignore_orphans> flag, an error will be returned if an orphan is found.
 The C<new> constructor returns a new Algorithm::Dependency object on success,
 or C<undef> on error.
 
-=head2 source()
+=head2 source
 
 The C<source> method retrieves the L<Algorithm::Dependency::Source> object
 for the algorithm context.
 
-=head2 selected_list()
+=head2 selected_list
 
 The C<selected_list> method returns, as a list and in alphabetical order, the
 list of the names of the selected items.
 
-=head2 selected( $name )
+=head2 selected $name
 
 Given an item name, the C<selected> method will return true if the item is
 selected, false is not, or C<undef> if the item does not exist, or an error
 occurs.
 
-=head2 item( $name )
+=head2 item $name
 
 The C<item> method fetches and returns the item object, as specified by the
 name argument.
@@ -301,7 +301,7 @@ name argument.
 Returns an L<Algorithm::Dependency::Item> object on success, or C<undef> if
 an item does not exist for the argument provided.
 
-=head2 depends( $name1, ..., $nameN )
+=head2 depends $name1, ..., $nameN
 
 Given a list of one or more item names, the C<depends> method will return a
 reference to an array containing a list of the names of all the OTHER items
@@ -317,7 +317,7 @@ The method returns a reference to an array of item names on success, a
 reference to an empty array if no other items are needed, or C<undef> on
 error.
 
-=head2 schedule( $name1, ..., $nameN )
+=head2 schedule $name1, ..., $nameN
 
 Given a list of one or more item names, the C<depends> method will return,
 as a reference to an array, the ordered list of items you should act upon.
@@ -335,7 +335,7 @@ The method returns a reference to an array of item names on success, a
 reference to an empty array if no items need to be acted upon, or C<undef>
 on error.
 
-=head2 schedule_all();
+=head2 schedule_all;
 
 The C<schedule_all> method acts the same as the C<schedule> method, but 
 returns a schedule that selected all the so-far unselected items.
@@ -381,4 +381,3 @@ The full text of the license can be found in the
 LICENSE file included with this module.
 
 =cut
-
