@@ -1,5 +1,8 @@
 Revision history for Perl extension Algorithm::Dependency
 
+0.3  Sun May 11 8:13:42 2003
+	- Made a stupid mistake in ->schedule_all
+	
 0.2  Sun May 11 6:54:32 2003
 	- Added the ->schedule_all method
 

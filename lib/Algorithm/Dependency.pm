@@ -9,7 +9,7 @@ use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.2;
+	$VERSION = 0.3;
 }
 
 
@@ -144,7 +144,7 @@ sub schedule {
 # schedule for everything.
 sub schedule_all {
 	my $self = shift;
-	return $self->schedule( $self->source->items );
+	return $self->schedule( map { $_->id } $self->source->items );
 }
 
 1;
