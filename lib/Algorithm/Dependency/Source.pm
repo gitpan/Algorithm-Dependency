@@ -8,7 +8,7 @@ use Algorithm::Dependency;
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.1;
+	$VERSION = 0.4;
 }
 
 
@@ -93,6 +93,17 @@ sub items {
 	return @{ $self->{items_array} };
 }
 
+# Check the integrity of the source.
+sub missing_dependencies {
+	my $self = shift;
+	$self->{loaded} or $self->load or return undef;
+	
+	# Merged the depends of all the items, and see if
+	# any are missing.
+	my %missing = map { $_ => 1 } grep { ! exists $self->{items_hash} }
+		map { $_->depends } @{ $self->{items_array} };
+	return %missing ? [ sort keys %missing ] : 0;
+}
 
 
 
@@ -163,6 +174,17 @@ as that in the storage location.
 Returns a list of L<Algorithm::Dependency::Item> objects on success, or
 C<undef> on error.
 
+=head2 missing_dependencies()
+
+By default, we are leniant with missing dependencies if the item is neved 
+used. For systems where having a missing dependency can be very bad, the 
+C<missing_dependencies> method checks all Items to make sure their 
+dependencies exist.
+
+If there are any missing dependencies, returns a reference to an array of
+their ids. If there are no missing dependencies, returns 0. Returns 
+C<undef> on error.
+
 =head1 EXTENDING
 
 Algorithm::Dependency::Source itself is a fairly thin module, and it is
@@ -184,7 +206,7 @@ and store them in the source object.
 Leaving our parent's C<load> method to take care of conflict, errors, and
 whatever, the C<_load_item_list> method is used to simply create a list of
 L<Algorithm::Dependency::Item> objects from wherever you store the item,
-and return them.
+and return them as a list.
 
 =back
 

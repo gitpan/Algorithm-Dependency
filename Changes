@@ -1,5 +1,8 @@
 Revision history for Perl extension Algorithm::Dependency
 
+0.4  Sat Jun 21 10:19:21 2003
+	- Added the missing_dependencies method to the Source class
+
 0.3  Sun May 11 8:13:42 2003
 	- Made a stupid mistake in ->schedule_all
 	

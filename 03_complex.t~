@@ -7,7 +7,7 @@ use strict;
 use lib '../../modules'; # For development testing
 use lib '../lib'; # For installation testing
 use UNIVERSAL 'isa';
-use Test::More tests => 169;
+use Test::More tests => 168;
 use File::Spec;
 use Algorithm::Dependency;
 use Algorithm::Dependency::Source::File;

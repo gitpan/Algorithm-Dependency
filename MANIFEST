@@ -1,6 +1,8 @@
+02_basics.t~
+03_complex.t~
 Changes
 LICENSE
-MANIFEST
+MANIFEST			This list of files
 Makefile.PL
 README
 data/basics.txt
