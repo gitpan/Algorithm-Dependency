@@ -26,7 +26,7 @@ SYNOPSIS
 
       # Find out the order we need to act on the items in.
       # This WILL include the item we selected, 'Foo'.
-      my $schedule = $dep->depends( 'Foo' );
+      my $schedule = $dep->schedule( 'Foo' );
 
 DESCRIPTION
     Algorithm::Dependency is a framework for creating simple read-only
@@ -184,7 +184,7 @@ SUPPORT
     To file a bug against this module, in a way you can keep track of, see
     the CPAN bug tracking system.
 
-    http://rt.cpan.org/
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 AUTHOR
         Adam Kennedy

@@ -9,7 +9,7 @@ use Algorithm::Dependency::Source ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.5;
+	$VERSION = 0.6;
 }
 
 
@@ -182,7 +182,7 @@ Algorithm::Dependency - Algorithmic framework for implementing dependency tree
 
   # Find out the order we need to act on the items in.
   # This WILL include the item we selected, 'Foo'.
-  my $schedule = $dep->depends( 'Foo' );
+  my $schedule = $dep->schedule( 'Foo' );
 
 =head1 DESCRIPTION
 
@@ -355,10 +355,10 @@ a tool.
 
 For general comments, contact the author.
 
-To file a bug against this module, in a way you can keep track of, see the CPAN
-bug tracking system.
+To file a bug against this module, in a way you can keep track of, see the
+CPAN bug tracking system.
 
-http://rt.cpan.org/
+http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 

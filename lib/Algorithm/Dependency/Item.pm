@@ -8,7 +8,7 @@ use Algorithm::Dependency ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.5;
+	$VERSION = 0.6;
 }
 
 
@@ -68,10 +68,10 @@ this item depends on.
 
 For general comments, contact the author.
 
-To file a bug against this module, in a way you can keep track of, see the CPAN
-bug tracking system.
+To file a bug against this module, in a way you can keep track of, see the
+CPAN bug tracking system.
 
-http://rt.cpan.org/
+http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 

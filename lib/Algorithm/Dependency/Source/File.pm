@@ -18,7 +18,7 @@ use base 'Algorithm::Dependency::Source';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = 0.4;
+	$VERSION = 0.6;
 }
 
 
@@ -125,7 +125,7 @@ From the examples above, it should be easy to create your own files.
 This documents the methods differing from the ordinary
 L<Algorithm::Dependency::Source> methods.
 
-=head2 new( $filename )
+=head2 new $filename
 
 When constructing a new Algorithm::Dependency::Source::File object, an
 argument should be provided of the name of the file to use. The constructor
@@ -139,7 +139,7 @@ For general comments, contact the author.
 To file a bug against this module, in a way you can keep track of, see the
 CPAN bug tracking system.
 
-http://rt.cpan.org/
+http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency
 
 =head1 AUTHOR
 

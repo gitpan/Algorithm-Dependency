@@ -1,5 +1,9 @@
 Revision history for Perl extension Algorithm::Dependency
 
+0.6  Wed Nov 19 2003
+	- Fixed several bugs in the POD documentation
+	- Updated version numbers correctly this time
+
 0.5  Wed Nov 12 2003
 	- Due to a bug I didn't notice until I had a bad Source, 
 	  the missing_dependencies method just outright didn't work.
