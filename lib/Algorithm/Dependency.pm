@@ -1,178 +1,26 @@
 package Algorithm::Dependency;
 
-# Implements the basic, non-order significant dependency algorithm
-
-use 5.005;
-use strict;
-use UNIVERSAL 'isa';
-use Algorithm::Dependency::Item   ();
-use Algorithm::Dependency::Source ();
-
-use vars qw{$VERSION};
-BEGIN {
-	$VERSION = '1.03';
-}
-
-
-
-
-
-sub new {
-	my $class = shift;
-	my %options = @_;
-
-	# Arguments are provided as a hash of options.
-	# We expect at LEAST the source argument.
-	my $source = isa( $options{source}, 'Algorithm::Dependency::Source' )
-		? $options{source} : return undef;
-
-	# Create the object
-	my $self = bless {
-		source   => $source, # Source object
-		selected => {},
-		}, $class;
-
-	# Were we given the 'ignore_orphans' flag?
-	if ( $options{ignore_orphans} ) {
-		$self->{ignore_orphans} = 1;
-	}
-
-	# Done, unless we have been given some selected items
-	unless ( isa( $options{selected}, 'ARRAY' ) ) {
-		return $self;
-	}
-
-	# Make sure each of the selected it's exists
-	my %selected = ();
-	foreach my $id ( @{ $options{selected} } ) {
-		# Does the item exist?
-		return undef unless $source->item($id);
-
-		# Is it a duplicate
-		return undef if $selected{$id};
-
-		# Add to the selected index
-		$selected{$id} = 1;
-	}
-
-	$self->{selected} = \%selected;
-	$self;
-}
-
-
-
-
-
-#####################################################################
-# Basic methods
-
-# Get the Source object
-sub source { $_[0]->{source} }
-
-# Get the list of all selected items
-sub selected_list { sort keys %{$_[0]->{selected}} }
-
-# Is a particular item selected
-sub selected { $_[0]->{selected}->{$_[1]} }
-
-# Shortcut to the source to get a particular item
-sub item { $_[0]->{source}->item( $_[1] ) }
-
-
-
-
-
-#####################################################################
-# Main algorithm methods
-
-# For one or more items, return a reference to the list of all additional
-# items we would have to select, in alphabetical order. Do not list any
-# items that are already selected. Do as efficiently as possible, as the
-# source database could get quite large. We return in alphabetic order,
-# for consistency.
-sub depends {
-	my $self = shift;
-	my @stack = @_ or return undef;
-
-	# Prepare
-	my @depends = ();
-	my %checked = ();
-
-	# Process the stack
-	while ( my $id = shift @stack ) {
-		# Does the id exist?
-		my $Item = $self->{source}->item($id)
-		or $self->{ignore_orphans} ? next : return undef;
-
-		# Skip if selected or checked
-		next if $checked{$id};
-
-		# Add it's depends to the stack
-		push @stack, $Item->depends;
-		$checked{$id} = 1;
-
-		# Add anything to the final output that wasn't one of
-		# the original input.
-		unless ( scalar grep { $id eq $_ } @_ ) {
-			push @depends, $id;
-		}
-	}
-
-	# Remove any items already selected
-	my $s = $self->{selected};
-	[ sort grep { ! $s->{$_} } @depends ];
-}
-
-# For one or more items, create a schedule of all items, including the
-# ones specified, we will need to act upon in order to do something to
-# the original set. i.e. All the modules we would need to install, including
-# all dependencies. Note that for this class, the order is not important,
-# so we return in alphabetic order for consistentcy.
-sub schedule {
-	my $self = shift;
-	my @items = @_ or return undef;
-
-	# Get their dependencies
-	my $depends = $self->depends( @items ) or return undef;
-
-	# Now return a combined list, removing any items already selected.
-	# We are allowed to return an empty list.
-	my $s = $self->{selected};
-	[ sort grep { ! $s->{$_} } @items, @$depends ];
-}
-
-# As above, but don't pass what we want to schedule as a list, just do the
-# schedule for everything.
-sub schedule_all {
-	my $self = shift;
-	$self->schedule( map { $_->id } $self->source->items );
-}
-
-1;
-
-__END__
-
 =pod
 
 =head1 NAME
 
-Algorithm::Dependency - Algorithmic framework for implementing dependency tree
+Algorithm::Dependency - Base class for implementing various dependency trees
 
 =head1 SYNOPSIS
 
   use Algorithm::Dependency;
   use Algorithm::Dependency::Source::File;
-
+  
   # Load the data from a simple text file
   my $data_source = Algorithm::Dependency::Source::File->new( 'foo.txt' );
-
+  
   # Create the dependency object, and indicate the items that are already
   # selected/installed/etc in the database
   my $dep = Algorithm::Dependency->new(
-      source => $data_source,
+      source   => $data_source,
       selected => [ 'This', 'That' ]
       ) or die 'Failed to set up dependency algorithm';
-
+  
   # For the item 'Foo', find out the other things we also have to select.
   # This WON'T include the item we selected, 'Foo'.
   my $also = $dep->depends( 'Foo' );
@@ -180,7 +28,7 @@ Algorithm::Dependency - Algorithmic framework for implementing dependency tree
   	? "By selecting 'Foo', you are also selecting the following items: "
   		. join( ', ', @$also )
   	: "Nothing else to select for 'Foo'";
-
+  
   # Find out the order we need to act on the items in.
   # This WILL include the item we selected, 'Foo'.
   my $schedule = $dep->schedule( 'Foo' );
@@ -243,7 +91,29 @@ a source for your particular use is in L<Algorithm::Dependency::Source>.
 
 =head1 METHODS
 
-=head2 new %options
+=cut
+
+use 5.005;
+use strict;
+use Params::Util                  qw{_INSTANCE _ARRAY};
+use Algorithm::Dependency::Item   ();
+use Algorithm::Dependency::Source ();
+
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = '1.04';
+}
+
+
+
+
+
+#####################################################################
+# Constructor
+
+=pod
+
+=head2 new %args
 
 The constructor creates a new context object for the dependency algorithms to
 act in. It takes as argument a series of options for creating the object.
@@ -278,21 +148,89 @@ the C<ignore_orphans> flag, an error will be returned if an orphan is found.
 The C<new> constructor returns a new Algorithm::Dependency object on success,
 or C<undef> on error.
 
+=cut
+
+sub new {
+	my $class = shift;
+	my %args  = @_;
+
+	# Arguments are provided as a hash of options.
+	# We expect at LEAST the source argument.
+	my $source = _INSTANCE($args{source}, 'Algorithm::Dependency::Source') or return undef;
+
+	# Create the object
+	my $self = bless {
+		source   => $source, # Source object
+		selected => {},
+		}, $class;
+
+	# Were we given the 'ignore_orphans' flag?
+	if ( $args{ignore_orphans} ) {
+		$self->{ignore_orphans} = 1;
+	}
+
+	# Done, unless we have been given some selected items
+	_ARRAY($args{selected}) or return $self;
+
+	# Make sure each of the selected ids exists
+	my %selected = ();
+	foreach my $id ( @{ $args{selected} } ) {
+		# Does the item exist?
+		return undef unless $source->item($id);
+
+		# Is it a duplicate
+		return undef if $selected{$id};
+
+		# Add to the selected index
+		$selected{$id} = 1;
+	}
+
+	$self->{selected} = \%selected;
+	$self;
+}
+
+
+
+
+
+#####################################################################
+# Basic methods
+
+=pod
+
 =head2 source
 
 The C<source> method retrieves the L<Algorithm::Dependency::Source> object
 for the algorithm context.
 
+=cut
+
+sub source { $_[0]->{source} }
+
+=pod
+
 =head2 selected_list
 
-The C<selected_list> method returns, as a list and in alphabetical order, the
-list of the names of the selected items.
+The C<selected_list> method returns, as a list and in alphabetical order,
+the list of the names of the selected items.
+
+=cut
+
+sub selected_list { sort keys %{$_[0]->{selected}} }
+
+=pod
 
 =head2 selected $name
 
 Given an item name, the C<selected> method will return true if the item is
 selected, false is not, or C<undef> if the item does not exist, or an error
 occurs.
+
+=cut
+
+sub selected { $_[0]->{selected}->{$_[1]} }
+
+=pod
 
 =head2 item $name
 
@@ -302,11 +240,24 @@ name argument.
 Returns an L<Algorithm::Dependency::Item> object on success, or C<undef> if
 an item does not exist for the argument provided.
 
+=cut
+
+sub item { $_[0]->{source}->item( $_[1] ) }
+
+
+
+
+
+#####################################################################
+# Main algorithm methods
+
+=pod
+
 =head2 depends $name1, ..., $nameN
 
-Given a list of one or more item names, the C<depends> method will return a
-reference to an array containing a list of the names of all the OTHER items
-that also have to be selected to meet dependencies.
+Given a list of one or more item names, the C<depends> method will return
+a reference to an array containing a list of the names of all the OTHER
+items that also have to be selected to meet dependencies.
 
 That is, if item A depends on B and C then the C<depends> method would
 return a reference to an array with B and C. ( C<[ 'B', 'C' ]> )
@@ -315,8 +266,43 @@ If multiple item names are provided, the same applies. The list returned
 will not contain duplicates.
 
 The method returns a reference to an array of item names on success, a
-reference to an empty array if no other items are needed, or C<undef> on
-error.
+reference to an empty array if no other items are needed, or C<undef>
+on error.
+
+=cut
+
+sub depends {
+	my $self    = shift;
+	my @stack   = @_ or return undef;
+	my @depends = ();
+	my %checked = ();
+
+	# Process the stack
+	while ( my $id = shift @stack ) {
+		# Does the id exist?
+		my $Item = $self->{source}->item($id)
+		or $self->{ignore_orphans} ? next : return undef;
+
+		# Skip if selected or checked
+		next if $checked{$id};
+
+		# Add its depends to the stack
+		push @stack, $Item->depends;
+		$checked{$id} = 1;
+
+		# Add anything to the final output that wasn't one of
+		# the original input.
+		unless ( scalar grep { $id eq $_ } @_ ) {
+			push @depends, $id;
+		}
+	}
+
+	# Remove any items already selected
+	my $s = $self->{selected};
+	[ sort grep { ! $s->{$_} } @depends ];
+}
+
+=pod
 
 =head2 schedule $name1, ..., $nameN
 
@@ -336,10 +322,38 @@ The method returns a reference to an array of item names on success, a
 reference to an empty array if no items need to be acted upon, or C<undef>
 on error.
 
+=cut
+
+sub schedule {
+	my $self  = shift;
+	my @items = @_ or return undef;
+
+	# Get their dependencies
+	my $depends = $self->depends( @items ) or return undef;
+
+	# Now return a combined list, removing any items already selected.
+	# We are allowed to return an empty list.
+	my $s = $self->{selected};
+	[ sort grep { ! $s->{$_} } @items, @$depends ];
+}
+
+=pod
+
 =head2 schedule_all;
 
 The C<schedule_all> method acts the same as the C<schedule> method, but 
 returns a schedule that selected all the so-far unselected items.
+
+=cut
+
+sub schedule_all {
+	my $self = shift;
+	$self->schedule( map { $_->id } $self->source->items );
+}
+
+1;
+
+=pod
 
 =head1 TO DO
 
@@ -348,30 +362,31 @@ Add the C<check_source> method, to verify the integrity of the source.
 Possibly add Algorithm::Dependency::Versions, to implement an ordered
 dependency tree with versions, like for perl modules.
 
-Currently readonly. Make the whole thing writable, so the module can be used
-as the core of an actual dependency application, as opposed to just being
-a tool.
+Currently readonly. Make the whole thing writable, so the module can be
+used as the core of an actual dependency application, as opposed to just
+being a tool.
 
 =head1 SUPPORT
 
 Bugs should be submitted via the CPAN bug tracker, located at
 
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency>
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm-Dependency>
 
 For general comments, contact the author.
 
 =head1 AUTHOR
 
-Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
+Adam Kennedy E<lt>cpan@ali.asE<gt>, L<http://ali.as/>
 
 =head1 SEE ALSO
 
 L<Algorithm::Dependency::Ordered>, L<Algorithm::Dependency::Item>,
-L<Algorithm::Dependency::Source>, L<Algorithm::Dependency::Source::File>,
+L<Algorithm::Dependency::Source>, L<Algorithm::Dependency::Source::File>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003 - 2004 Adam Kennedy. All rights reserved.
+Copyright (c) 2003 - 2005 Adam Kennedy. All rights reserved.
+
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

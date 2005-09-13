@@ -15,7 +15,7 @@ BEGIN {
 	}
 }
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 
 
@@ -24,6 +24,7 @@ use Test::More tests => 4;
 ok( $] > 5.005, 'Perl version is new enough' );
 
 # Load the main modules
-use_ok( 'Algorithm::Dependency' );
-use_ok( 'Algorithm::Dependency::Ordered' );
+use_ok( 'Algorithm::Dependency'               );
+use_ok( 'Algorithm::Dependency::Ordered'      );
 use_ok( 'Algorithm::Dependency::Source::File' );
+use_ok( 'Algorithm::Dependency::Source::HoA'  );

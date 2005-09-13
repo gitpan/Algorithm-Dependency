@@ -1,21 +1,21 @@
 NAME
-    Algorithm::Dependency - Algorithmic framework for implementing
-    dependency tree
+    Algorithm::Dependency - Base class for implementing various dependency
+    trees
 
 SYNOPSIS
       use Algorithm::Dependency;
       use Algorithm::Dependency::Source::File;
-
+  
       # Load the data from a simple text file
       my $data_source = Algorithm::Dependency::Source::File->new( 'foo.txt' );
-
+  
       # Create the dependency object, and indicate the items that are already
       # selected/installed/etc in the database
       my $dep = Algorithm::Dependency->new(
-          source => $data_source,
+          source   => $data_source,
           selected => [ 'This', 'That' ]
           ) or die 'Failed to set up dependency algorithm';
-
+  
       # For the item 'Foo', find out the other things we also have to select.
       # This WON'T include the item we selected, 'Foo'.
       my $also = $dep->depends( 'Foo' );
@@ -23,7 +23,7 @@ SYNOPSIS
             ? "By selecting 'Foo', you are also selecting the following items: "
                     . join( ', ', @$also )
             : "Nothing else to select for 'Foo'";
-
+  
       # Find out the order we need to act on the items in.
       # This WILL include the item we selected, 'Foo'.
       my $schedule = $dep->schedule( 'Foo' );
@@ -82,7 +82,7 @@ DESCRIPTION
     a source for your particular use is in Algorithm::Dependency::Source.
 
 METHODS
-  new %options
+  new %args
     The constructor creates a new context object for the dependency
     algorithms to act in. It takes as argument a series of options for
     creating the object.
@@ -181,22 +181,22 @@ TO DO
 SUPPORT
     Bugs should be submitted via the CPAN bug tracker, located at
 
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependenc
-    y>
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm-Dependency>
 
     For general comments, contact the author.
 
 AUTHOR
-    Adam Kennedy (Maintainer), <http://ali.as/>, cpan@ali.as
+    Adam Kennedy <cpan@ali.as>, <http://ali.as/>
 
 SEE ALSO
     Algorithm::Dependency::Ordered, Algorithm::Dependency::Item,
-    Algorithm::Dependency::Source, Algorithm::Dependency::Source::File,
+    Algorithm::Dependency::Source, Algorithm::Dependency::Source::File
 
 COPYRIGHT
-    Copyright (c) 2003 - 2004 Adam Kennedy. All rights reserved. This
-    program is free software; you can redistribute it and/or modify it under
-    the same terms as Perl itself.
+    Copyright (c) 2003 - 2005 Adam Kennedy. All rights reserved.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
     The full text of the license can be found in the LICENSE file included
     with this module.

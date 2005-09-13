@@ -1,81 +1,5 @@
 package Algorithm::Dependency::Source::File;
 
-# Implements a sample source, which loads data from a formatted file.
-# We assume the first word in each line to be the id, and any further
-# words in the line to be the items it depends on.
-
-# For example, your file could look like...
-
-# foo bar this that
-# foo:bar, this, that
-# any|||thing   you%#$%^#like
-
-# It should allow most basic file format to be parsed. If not, just copy
-# and change this file.
-
-use strict;
-use base 'Algorithm::Dependency::Source';
-
-use vars qw{$VERSION};
-BEGIN {
-	$VERSION = '1.03';
-}
-
-
-
-
-
-sub new {
-	my $class = shift;
-	my $filename = shift or return undef;
-	return undef unless -r $filename;
-
-	# Get the basic source object
-	my $self = $class->SUPER::new or return undef;
-
-	# Add our arguments
-	$self->{filename} = $filename;
-
-	$self;
-}
-
-
-
-
-
-# Load the list of items
-sub _load_item_list {
-	my $self = shift;
-
-	# Load the contents of the file
-	local $/ = undef;
-	open( FILE, $self->{filename} ) or return undef;
-	my $source = <FILE>;
-	close FILE or return undef;
-
-	# Split, trim, clean and remove comments
-	my @content = grep { ! /^\s*(?:\#|$)/ } 
-		split /\s*[\015\012][\s\015\012]*/, $source;
-
-	# Parse and build the item list
-	my @Items = ();
-	foreach ( @content ) {
-		# Split the line by non-word characters
-		my @sections = grep { length $_ } split /\W+/, $_;
-		return undef unless scalar @sections;
-
-		# Create the new item
-		my $Item = Algorithm::Dependency::Item->new( @sections ) or return undef;
-		push @Items, $Item;
-	}
-
-	\@Items;
-}
-
-1;
-
-__END__
-
 =pod
 
 =head1 NAME
@@ -125,6 +49,25 @@ From the examples above, it should be easy to create your own files.
 This documents the methods differing from the ordinary
 L<Algorithm::Dependency::Source> methods.
 
+=cut
+
+use strict;
+use base 'Algorithm::Dependency::Source';
+
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = '1.04';
+}
+
+
+
+
+
+#####################################################################
+# Constructor
+
+=pod
+
 =head2 new $filename
 
 When constructing a new Algorithm::Dependency::Source::File object, an
@@ -132,17 +75,72 @@ argument should be provided of the name of the file to use. The constructor
 will check that the file exists, and is readable, returning C<undef>
 otherwise.
 
+=cut
+
+sub new {
+	my $class    = shift;
+	my $filename = shift or return undef;
+	return undef unless -r $filename;
+
+	# Get the basic source object
+	my $self = $class->SUPER::new or return undef;
+
+	# Add our arguments
+	$self->{filename} = $filename;
+
+	$self;
+}
+
+
+
+
+
+#####################################################################
+# Private Methods
+
+sub _load_item_list {
+	my $self = shift;
+
+	# Load the contents of the file
+	local $/ = undef;
+	open( FILE, $self->{filename} ) or return undef;
+	my $source = <FILE>;
+	close( FILE ) or return undef;
+
+	# Split, trim, clean and remove comments
+	my @content = grep { ! /^\s*(?:\#|$)/ } 
+		split /\s*[\015\012][\s\015\012]*/, $source;
+
+	# Parse and build the item list
+	my @Items = ();
+	foreach ( @content ) {
+		# Split the line by non-word characters
+		my @sections = grep { length $_ } split /\W+/, $_;
+		return undef unless scalar @sections;
+
+		# Create the new item
+		my $Item = Algorithm::Dependency::Item->new( @sections ) or return undef;
+		push @Items, $Item;
+	}
+
+	\@Items;
+}
+
+1;
+
+=pod
+
 =head1 SUPPORT
 
 To file a bug against this module, use the CPAN bug tracking system
 
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm%3A%3ADependency>
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Algorithm-Dependency>
 
 For other comments, contact the author.
 
 =head1 AUTHOR
 
-Adam Kennedy (Maintainer), L<http://ali.as/>, cpan@ali.as
+Adam Kennedy, L<http://ali.as/>, cpan@ali.as
 
 =head1 SEE ALSO
 
@@ -150,7 +148,8 @@ L<Algorithm::Dependency>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003 Adam Kennedy. All rights reserved.
+Copyright (c) 2003 - 2005 Adam Kennedy. All rights reserved.
+
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.
 

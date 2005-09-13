@@ -16,11 +16,12 @@ BEGIN {
 }
 
 # Load the API we will be testing
-use Test::More 'tests' => 31;
+use Test::More 'tests' => 39;
 use Test::ClassAPI;
-use Algorithm::Dependency ();
-use Algorithm::Dependency::Ordered ();
+use Algorithm::Dependency               ();
+use Algorithm::Dependency::Ordered      ();
 use Algorithm::Dependency::Source::File ();
+use Algorithm::Dependency::Source::HoA  ();
 
 # Execute the tests
 Test::ClassAPI->execute('complete');
@@ -34,6 +35,7 @@ Algorithm::Dependency::Item=abstract
 Algorithm::Dependency::Ordered=class
 Algorithm::Dependency::Source=abstract
 Algorithm::Dependency::Source::File=class
+Algorithm::Dependency::Source::HoA=class
 
 [Algorithm::Dependency]
 new=method
@@ -61,4 +63,7 @@ items=method
 missing_dependencies=method
 
 [Algorithm::Dependency::Source::File]
+Algorithm::Dependency::Source=isa
+
+[Algorithm::Dependency::Source::HoA]
 Algorithm::Dependency::Source=isa

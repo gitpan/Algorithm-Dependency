@@ -1,15 +1,17 @@
-# http://module-build.sourceforge.net/META-spec.html
-#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
-name:         Algorithm-Dependency
-version:      1.03
-version_from: lib/Algorithm/Dependency.pm
-installdirs:  site
-requires:
-    Class::Inspector:              1.06
-    Config::Tiny:                  2.0
-    File::Spec:                    0.83
-    Test::ClassAPI:                0.6
-    Test::More:                    0
-
+name: Algorithm-Dependency
+version: 1.04
+abstract: Toolkit for implementing dependency systems
+author: Adam Kennedy <cpan@ali.as>
+license: perl
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.16
+build_requires:
+  Test::More: 0.47
+  File::Spec: 0.82
+  Test::ClassAPI: 0.6
+requires:
+  perl: 5.005
+  Params::Util: 0.05
+no_index:
+  directory:
+    - inc
+generated_by: Module::Install version 0.37
