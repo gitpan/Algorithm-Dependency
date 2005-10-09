@@ -9,7 +9,7 @@ version_from   ( 'lib/Algorithm/Dependency.pm' );
 license        ( 'perl'                        );
 
 requires       ( 'perl'             => '5.005' );
-requires       ( 'Params::Util'     => '0.05'  );
+requires       ( 'Params::Util'     => '0.06'  );
 
 # Test deps, including the less common ones
 build_requires ( 'Test::More'       => '0.47'  );

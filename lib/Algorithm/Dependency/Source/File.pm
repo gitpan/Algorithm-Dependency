@@ -56,7 +56,7 @@ use base 'Algorithm::Dependency::Source';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 
@@ -104,8 +104,8 @@ sub _load_item_list {
 	# Load the contents of the file
 	local $/ = undef;
 	open( FILE, $self->{filename} ) or return undef;
-	my $source = <FILE>;
-	close( FILE ) or return undef;
+	defined(my $source = <FILE>)    or return undef;
+	close( FILE )                   or return undef;
 
 	# Split, trim, clean and remove comments
 	my @content = grep { ! /^\s*(?:\#|$)/ } 
@@ -113,9 +113,9 @@ sub _load_item_list {
 
 	# Parse and build the item list
 	my @Items = ();
-	foreach ( @content ) {
+	foreach my $line ( @content ) {
 		# Split the line by non-word characters
-		my @sections = grep { length $_ } split /\W+/, $_;
+		my @sections = grep { length $_ } split /\W+/, $line;
 		return undef unless scalar @sections;
 
 		# Create the new item

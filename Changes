@@ -1,5 +1,10 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.100 Mon Oct 10 2005
+	- Significant version bump to announce addition of major functionality
+	- Added Algorithm::Dependency::Weight
+	- Upgraded a few remaining things to Params::Util
+
 1.04 Wed Sep 14 2005
 	- Converted to Module::Install
 	- Added Algorithm::Dependency::Source::HoA by request

@@ -1,5 +1,5 @@
 name: Algorithm-Dependency
-version: 1.04
+version: 1.100
 abstract: Toolkit for implementing dependency systems
 author: Adam Kennedy <cpan@ali.as>
 license: perl
@@ -10,7 +10,7 @@ build_requires:
   Test::ClassAPI: 0.6
 requires:
   perl: 5.005
-  Params::Util: 0.05
+  Params::Util: 0.06
 no_index:
   directory:
     - inc

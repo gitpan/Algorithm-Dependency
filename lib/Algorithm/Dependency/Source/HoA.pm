@@ -32,12 +32,12 @@ L<Algorithm::Dependency::Source> methods.
 =cut
 
 use strict;
-use Params::Util qw{_HASH _ARRAY0};
 use base 'Algorithm::Dependency::Source';
+use Params::Util qw{_HASH _ARRAY0};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 

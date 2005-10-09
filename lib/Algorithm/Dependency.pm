@@ -95,13 +95,13 @@ a source for your particular use is in L<Algorithm::Dependency::Source>.
 
 use 5.005;
 use strict;
-use Params::Util                  qw{_INSTANCE _ARRAY};
 use Algorithm::Dependency::Item   ();
 use Algorithm::Dependency::Source ();
+use Params::Util qw{_INSTANCE _ARRAY};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 
@@ -151,12 +151,10 @@ or C<undef> on error.
 =cut
 
 sub new {
-	my $class = shift;
-	my %args  = @_;
-
-	# Arguments are provided as a hash of options.
-	# We expect at LEAST the source argument.
-	my $source = _INSTANCE($args{source}, 'Algorithm::Dependency::Source') or return undef;
+	my $class  = shift;
+	my %args   = @_;
+	my $source = _INSTANCE($args{source}, 'Algorithm::Dependency::Source')
+		or return undef;
 
 	# Create the object
 	my $self = bless {
@@ -242,7 +240,7 @@ an item does not exist for the argument provided.
 
 =cut
 
-sub item { $_[0]->{source}->item( $_[1] ) }
+sub item { $_[0]->{source}->item($_[1]) }
 
 
 
@@ -299,7 +297,7 @@ sub depends {
 
 	# Remove any items already selected
 	my $s = $self->{selected};
-	[ sort grep { ! $s->{$_} } @depends ];
+	return [ sort grep { ! $s->{$_} } @depends ];
 }
 
 =pod
@@ -334,7 +332,7 @@ sub schedule {
 	# Now return a combined list, removing any items already selected.
 	# We are allowed to return an empty list.
 	my $s = $self->{selected};
-	[ sort grep { ! $s->{$_} } @items, @$depends ];
+	return [ sort grep { ! $s->{$_} } @items, @$depends ];
 }
 
 =pod

@@ -28,7 +28,7 @@ use base 'Algorithm::Dependency';
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 
@@ -55,16 +55,14 @@ sub schedule {
 	# a circular reference error. We need to create a marker to track this.
 	my $error_marker = '';
 
-	# Create the schedule we will be filling.
-	my @schedule = ();
-
 	# Begin the processing loop
+	my @schedule = ();
 	while ( my $id = shift @queue ) {
 		# Have we checked every item in the stack?
 		return undef if $id eq $error_marker;
 
 		# Are there any un-met dependencies
-		my $Item = $self->{source}->item( $id ) or return undef;
+		my $Item    = $self->{source}->item($id) or return undef;
 		my @missing = grep { ! $selected{$_} } $Item->depends;
 
 		# Remove orphans if we are ignoring them

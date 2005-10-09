@@ -20,10 +20,11 @@ their own source. ( See L<Algorithm::Dependency::Source> for details ).
 use 5.005;
 use strict;
 use Algorithm::Dependency ();
+use Params::Util qw{_IDENTIFIER};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 
@@ -47,12 +48,9 @@ on error.
 =cut
 
 sub new {
-	my $class   = shift;
-	my $id      = shift or return undef;
-	my @depends = @_;
-
-	# Create the object
-	bless { id => $id, depends => \@depends }, $class;
+	my $class = shift;
+	my $id    = _IDENTIFIER(shift) or return undef;
+	bless { id => $id, depends => [ @_ ] }, $class;
 }
 
 =pod
@@ -63,7 +61,7 @@ The C<id> method returns the id of the item.
 
 =cut
 
-sub id      {   $_[0]->{id}       }
+sub id { $_[0]->{id} }
 
 =pod
 

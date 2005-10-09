@@ -18,14 +18,13 @@ L<Algorithm::Dependency> package.
 
 =cut
 
-use 5.005;
 use strict;
-use Params::Util '_SET';
-use Algorithm::Dependency;
+use Algorithm::Dependency ();
+use Params::Util qw{_IDENTIFIER _SET};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.100';
 }
 
 
@@ -58,11 +57,12 @@ sub new {
 	# This can't be created directly, it must be through
 	# a SUPER::new call
 	if ( $class eq __PACKAGE__ ) {
-		die "Cannot directly instantiate Algorithm::Dependency::Source. You must use a subclass";
+		die "Cannot directly instantiate Algorithm::Dependency::Source."
+			. " You must use a subclass";
 	}
 
 	# Create the basic object
-	bless {
+	my $self = bless {
 		# Has the source been loaded
 		loaded      => 0,
 
@@ -70,6 +70,8 @@ sub new {
 		items_hash  => undef,
 		items_array => undef,
 		}, $class;
+
+	$self;
 }
 
 =pod
@@ -134,10 +136,10 @@ the named item does not exist in the source.
 
 sub item {
 	my $self = shift;
-	my $id   = length $_[0] ? shift : return undef;
+	my $id   = _IDENTIFIER(shift)  or return undef;
 	$self->{loaded} or $self->load or return undef;
 
-	# Return the item ( or undef )
+	# Return the item (or undef)
 	$self->{items_hash}->{$id};
 }
 
