@@ -24,9 +24,9 @@ my $data = {
 	A => [],
 	B => [ 'C' ],
 	C => [],
-	D => [ 'E', 'F' ],
+	D => [ 'E', 'F::G' ],
 	E => [],
-	F => [],
+	'F::G' => [],
 	};
 
 # Load the data/basics.txt file in as a source file, and test it rigorously.
@@ -76,14 +76,14 @@ ok( ! $Dep->selected('Foo'), "Dependency->selected returns false on bad input" )
 ok( ! $Dep->selected('A'), "Dependency->selected returns false when not selected" );
 ok( ! defined $Dep->depends('Foo'), "Dependency->depends fails correctly on bad input" );
 foreach my $data ( [
-	['A'],		[],		['A'] 			], [
-	['B'],		['C'],		['B','C'] 		], [
-	['C'],		[], 		['C']			], [
-	['D'],		['E','F'],	[qw{D E F}]		], [
-	['E'],		[],		['E']			], [
-	['F'],		[],		['F']			], [
-	['A','B'],	['C'],		[qw{A B C}]		], [
-	['B','D'],	[qw{C E F}],	[qw{B C D E F}]		]
+	['A'],		[],			['A'] 			], [
+	['B'],		['C'],			['B','C'] 		], [
+	['C'],		[], 			['C']			], [
+	['D'],		['E','F::G'],		[qw{D E}, 'F::G']	], [
+	['E'],		[],			['E']			], [
+	['F::G'],	[],			['F::G']		], [
+	['A','B'],	['C'],			[qw{A B C}]		], [
+	['B','D'],	[qw{C E}, 'F::G'],	[qw{B C D E}, 'F::G']	]
 ) {
 	my $args = join( ', ', map { "'$_'" } @{ $data->[0] } );
 	my $rv = $Dep->depends( @{ $data->[0] } );
@@ -95,7 +95,7 @@ foreach my $data ( [
 }
 
 # Create with one selected
-$Dep = Algorithm::Dependency->new( source => $Source, selected => [ 'F' ] );
+$Dep = Algorithm::Dependency->new( source => $Source, selected => [ 'F::G' ] );
 ok( $Dep, "Algorithm::Dependency->new returns true" );
 ok( ref $Dep, "Algorithm::Dependency->new returns reference" );
 ok( isa( $Dep, 'Algorithm::Dependency'), "Algorithm::Dependency->new returns correctly" );
@@ -106,15 +106,15 @@ ok( $Dep->item('A') eq $Source->item('A'), "Dependency->item returns the same as
 ok( scalar( @tmp = $Dep->selected_list ) == 1, "Dependency->selected_list returns empty list" );
 ok( ! $Dep->selected('Foo'), "Dependency->selected returns false when wrong" );
 ok( ! $Dep->selected('A'), "Dependency->selected returns false when expected" );
-ok( $Dep->selected('F'), "Dependency->selected return true" );
+ok( $Dep->selected('F::G'), "Dependency->selected return true" );
 ok( ! defined $Dep->depends('Foo'), "Dependency->depends fails correctly on bad input" );
 foreach my $data ( [
-	['A'],		[],		['A'] 			], [
-	['B'],		['C'],		[qw{B C}] 		], [
+	['A'],		[],		['A'] 		], [
+	['B'],		['C'],		[qw{B C}] 	], [
 	['C'],		[], 		['C']		], [
 	['D'],		['E'],		[qw{D E}]	], [
 	['E'],		[],		['E']		], [
-	['F'],		[],		[]		], [
+	['F::G'],	[],		[]		], [
 	['A','B'],	['C'],		[qw{A B C}]	], [
 	['B','D'],	[qw{C E}],	[qw{B C D E}]	]
 ) {

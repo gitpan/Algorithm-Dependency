@@ -1,5 +1,8 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.101 Mon Oct 10 2005
+	- It appears I overtightened the naming rules. Reversed
+
 1.100 Mon Oct 10 2005
 	- Significant version bump to announce addition of major functionality
 	- Added Algorithm::Dependency::Weight

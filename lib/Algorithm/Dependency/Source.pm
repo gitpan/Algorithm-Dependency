@@ -20,11 +20,11 @@ L<Algorithm::Dependency> package.
 
 use strict;
 use Algorithm::Dependency ();
-use Params::Util qw{_IDENTIFIER _SET};
+use Params::Util qw{_SET};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.100';
+	$VERSION = '1.101';
 }
 
 
@@ -136,7 +136,7 @@ the named item does not exist in the source.
 
 sub item {
 	my $self = shift;
-	my $id   = _IDENTIFIER(shift)  or return undef;
+	my $id   = (defined $_[0] and ! ref $_[0] and $_[0] ne '') ? shift : return undef;
 	$self->{loaded} or $self->load or return undef;
 
 	# Return the item (or undef)

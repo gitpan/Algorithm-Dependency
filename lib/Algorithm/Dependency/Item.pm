@@ -20,11 +20,10 @@ their own source. ( See L<Algorithm::Dependency::Source> for details ).
 use 5.005;
 use strict;
 use Algorithm::Dependency ();
-use Params::Util qw{_IDENTIFIER};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.100';
+	$VERSION = '1.101';
 }
 
 
@@ -49,7 +48,7 @@ on error.
 
 sub new {
 	my $class = shift;
-	my $id    = _IDENTIFIER(shift) or return undef;
+	my $id    = (defined $_[0] and ! ref $_[0] and $_[0] ne '') ? shift : return undef;
 	bless { id => $id, depends => [ @_ ] }, $class;
 }
 
