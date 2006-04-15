@@ -5,24 +5,29 @@
 
 use strict;
 use lib ();
-use UNIVERSAL 'isa';
 use File::Spec::Functions ':ALL';
 BEGIN {
 	$| = 1;
 	unless ( $ENV{HARNESS_ACTIVE} ) {
 		require FindBin;
-		chdir ($FindBin::Bin = $FindBin::Bin); # Avoid a warning
-		lib->import( catdir( updir(), updir(), 'modules') );
+		$FindBin::Bin = $FindBin::Bin; # Avoid a warning
+		chdir catdir( $FindBin::Bin, updir() );
+		lib->import(
+			catdir('blib', 'arch'),
+			catdir('blib', 'lib' ),
+			catdir('lib'),
+			);
 	}
 }
 
-use Test::More tests => 10;
+use Test::More tests => 11;
 use Algorithm::Dependency;
 use Algorithm::Dependency::Ordered;
 use Algorithm::Dependency::Source::File;
 
 # Where is the test data located
-my $TESTDATA = 't.data';
+my $TESTDATA = catdir( 't', 'data' );
+ok( -d $TESTDATA, 'Found test data directory' );
 
 
 

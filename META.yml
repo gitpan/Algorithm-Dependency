@@ -1,17 +1,20 @@
-name: Algorithm-Dependency
-version: 1.101
-abstract: Toolkit for implementing dependency systems
-author: Adam Kennedy <cpan@ali.as>
-license: perl
+
+no_index: 
+  directory: 
+    - inc
+    - t
+generated_by: Module::Install version 0.62
 distribution_type: module
-build_requires:
+version: 1.102
+name: Algorithm-Dependency
+author: Adam Kennedy <cpan@ali.as>, L<http://ali.as/>
+license: perl
+build_requires: 
   Test::More: 0.47
-  File::Spec: 0.82
+  File::Spec: 0.80
   Test::ClassAPI: 0.6
-requires:
+requires: 
+  List::Util: 1.11
   perl: 5.005
   Params::Util: 0.06
-no_index:
-  directory:
-    - inc
-generated_by: Module::Install version 0.37
+abstract: Base class for implementing various dependency trees

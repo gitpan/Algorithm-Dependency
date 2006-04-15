@@ -1,5 +1,11 @@
 Revision history for Perl extension Algorithm::Dependency
 
+1.102 Sat 16 Apr 2006
+	- No functional changes, no need to upgrade
+	- Moving from old CVS to new SVN repository
+	- Doing some general cleaning up
+	- Updating to Module::Install 0.62
+
 1.101 Mon Oct 10 2005
 	- It appears I overtightened the naming rules. Reversed
 
