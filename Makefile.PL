@@ -1,3 +1,4 @@
+use strict;
 use inc::Module::Install;
 
 name            'Algorithm-Dependency';
@@ -10,5 +11,4 @@ build_requires  'Test::ClassAPI' => '0.6';
 include         'Test::ClassAPI';
 include         'Class::Inspector';
 
-auto_install;
 WriteAll;

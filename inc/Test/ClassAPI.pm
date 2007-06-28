@@ -4,15 +4,16 @@ package Test::ClassAPI;
 # Allows us to test class APIs in a simplified manner.
 # Implemented as a wrapper around Test::More, Class::Inspector and Config::Tiny.
 
+use 5.005;
 use strict;
-use UNIVERSAL 'isa';
 use Test::More       ();
 use Config::Tiny     ();
 use Class::Inspector ();
+use Params::Util     '_INSTANCE';
 
 use vars qw{$VERSION $CONFIG $SCHEDULE $EXECUTED %IGNORE *DATA};
 BEGIN {
-	$VERSION = '1.02';
+	$VERSION = '1.04';
 
 	# Config starts empty
 	$CONFIG   = undef;
@@ -57,7 +58,7 @@ sub init {
 	my $class = shift;
 
 	# Use the script's DATA handle or one passed
-	*DATA = isa( $_[0], 'GLOB' ) ? shift : *main::DATA;
+	*DATA = ref($_[0]) eq 'GLOB' ? shift : *main::DATA;
  
 	# Read in all the data, and create the config object
 	local $/ = undef;
@@ -128,17 +129,26 @@ sub execute {
 		my %known_methods = ();
 		my @implements = ();
 		foreach my $parent ( @path ) {
-			foreach my $test ( keys %{$CONFIG->{$parent}} ) {
+			foreach my $test ( sort keys %{$CONFIG->{$parent}} ) {
 				my $type = $CONFIG->{$parent}->{$test};
+
+				# Does the class have a named method
 				if ( $type eq 'method' ) {
-					# Does the class have a method
 					$known_methods{$test}++;
 					Test::More::can_ok( $class, $test );
-				} elsif ( $type eq 'isa' ) {
-					# Does the class inherit from a parent
-					Test::More::ok( isa( $class, $test ), "$class isa $test" );
+					next;
 				}
-				next unless $type eq 'implements';
+
+				# Does the class inherit from a named parent
+				if ( $type eq 'isa' ) {
+					Test::More::ok( $class->isa($test), "$class isa $test" );
+					next;
+				}
+
+				unless ( $type eq 'implements' ) {
+					print "# Warning: Unknown test type '$type'";
+					next;
+				}
 				
 				# When we 'implement' a class or interface,
 				# we need to check the 'method' tests within
@@ -208,4 +218,4 @@ sub execute {
 
 __END__
 
-#line 339
+#line 350

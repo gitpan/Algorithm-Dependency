@@ -1,8 +1,6 @@
 Changes
 inc/Class/Inspector.pm
-inc/Module/AutoInstall.pm
 inc/Module/Install.pm
-inc/Module/Install/AutoInstall.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
 inc/Module/Install/Fetch.pm
@@ -32,7 +30,7 @@ t/05_ordered.t
 t/06_ignore_orphans.t
 t/07_hoa.t
 t/08_weight.t
-t/99_pod.t
+t/99_author.t
 t/data/basics.txt
 t/data/circular.txt
 t/data/complex.txt
