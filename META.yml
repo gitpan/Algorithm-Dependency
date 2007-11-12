@@ -1,12 +1,13 @@
 --- 
 abstract: Base class for implementing various dependency trees
-author: Adam Kennedy <cpan@ali.as>, L<http://ali.as/>
+author: 
+  - Adam Kennedy <adamk@cpan.org>, L<http://ali.as/>
 build_requires: 
   File::Spec: 0.80
   Test::ClassAPI: 0.6
   Test::More: 0.47
 distribution_type: module
-generated_by: Module::Install version 0.67
+generated_by: Module::Install version 0.68
 license: perl
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
@@ -20,4 +21,4 @@ requires:
   List::Util: 1.11
   Params::Util: 0.06
   perl: 5.005
-version: 1.103
+version: 1.104

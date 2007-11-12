@@ -30,7 +30,8 @@ t/05_ordered.t
 t/06_ignore_orphans.t
 t/07_hoa.t
 t/08_weight.t
-t/99_author.t
+t/98_pod.t
+t/99_pmv.t
 t/data/basics.txt
 t/data/circular.txt
 t/data/complex.txt

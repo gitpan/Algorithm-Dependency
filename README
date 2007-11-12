@@ -186,14 +186,14 @@ SUPPORT
     For general comments, contact the author.
 
 AUTHOR
-    Adam Kennedy <cpan@ali.as>, <http://ali.as/>
+    Adam Kennedy <adamk@cpan.org>, <http://ali.as/>
 
 SEE ALSO
     Algorithm::Dependency::Ordered, Algorithm::Dependency::Item,
     Algorithm::Dependency::Source, Algorithm::Dependency::Source::File
 
 COPYRIGHT
-    Copyright (c) 2003 - 2005 Adam Kennedy. All rights reserved.
+    Copyright (c) 2003 - 2005 Adam Kennedy.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
