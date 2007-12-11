@@ -63,6 +63,7 @@ the situation, which is probably more important.
 
 =cut
 
+use 5.005;
 use strict;
 use List::Util            ();
 use Algorithm::Dependency ();
@@ -70,7 +71,7 @@ use Params::Util qw{_INSTANCE _IDENTIFIER};
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.104';
+	$VERSION = '1.105_01';
 }
 
 

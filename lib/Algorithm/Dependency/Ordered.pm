@@ -24,11 +24,12 @@ For API details, see L<Algorithm::Dependency>.
 
 use 5.005;
 use strict;
-use base 'Algorithm::Dependency';
+use Algorithm::Dependency ();
 
-use vars qw{$VERSION};
+use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.104';
+	$VERSION = '1.105_01';
+	@ISA     = 'Algorithm::Dependency';
 }
 
 

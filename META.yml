@@ -21,4 +21,4 @@ requires:
   List::Util: 1.11
   Params::Util: 0.06
   perl: 5.005
-version: 1.104
+version: 1.105_01
