@@ -7,7 +7,7 @@ build_requires:
   Test::ClassAPI: 0.6
   Test::More: 0.47
 distribution_type: module
-generated_by: Module::Install version 0.68
+generated_by: Module::Install version 0.680
 license: perl
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
@@ -21,4 +21,4 @@ requires:
   List::Util: 1.11
   Params::Util: 0.06
   perl: 5.005
-version: 1.105_01
+version: 1.106
