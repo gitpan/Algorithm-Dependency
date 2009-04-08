@@ -5,26 +5,26 @@ NAME
 SYNOPSIS
       use Algorithm::Dependency;
       use Algorithm::Dependency::Source::File;
-  
-      # Load the data from a simple text file
+      
+  # Load the data from a simple text file
       my $data_source = Algorithm::Dependency::Source::File->new( 'foo.txt' );
-  
-      # Create the dependency object, and indicate the items that are already
+      
+  # Create the dependency object, and indicate the items that are already
       # selected/installed/etc in the database
       my $dep = Algorithm::Dependency->new(
           source   => $data_source,
           selected => [ 'This', 'That' ]
           ) or die 'Failed to set up dependency algorithm';
-  
-      # For the item 'Foo', find out the other things we also have to select.
+      
+  # For the item 'Foo', find out the other things we also have to select.
       # This WON'T include the item we selected, 'Foo'.
       my $also = $dep->depends( 'Foo' );
       print $also
             ? "By selecting 'Foo', you are also selecting the following items: "
                     . join( ', ', @$also )
             : "Nothing else to select for 'Foo'";
-  
-      # Find out the order we need to act on the items in.
+      
+  # Find out the order we need to act on the items in.
       # This WILL include the item we selected, 'Foo'.
       my $schedule = $dep->schedule( 'Foo' );
 
